@@ -1,21 +1,34 @@
 #include "push_swap.h"
 
-t_ps_state	*str_to_list(char **str, size_t len)
+t_ps_state	*str_to_list(int *arr, size_t len)
 {
-	t_ps_state	*ap;
+	t_ps_state	*state;
 
-	ap = malloc(sizeof(t_ps_state));
-	if (ap == NULL)
+	state = malloc(sizeof(t_ps_state));
+	if (!state)
 		return (NULL);
-	ap->a = str;
-	ap->b = calloc(len + 1, sizeof(char *));
-	if (ap->b == NULL)
+	state->a = arr;
+	state->b = NULL;
+	if (len > (size_t)-1 / sizeof(int))
+		freexit(state);
+	if (len != 0)
+		state->b = malloc(len * sizeof(int));
+	if (len != 0 && !state->b)
+		freexit(state);
+	state->pa = len;
+	state->pb = 0;
+	state->tlen = len;
+	return (state);
+}
+
+void	freexit(t_ps_state *state)
+{
+	write(2, "Error\n", 6);
+	if (state)
 	{
-		free (ap);
-		return (NULL);
+		free(state->a);
+		free(state->b);
+		free(state);
 	}
-	ap->pa = len;
-	ap->pb = 0;
-	ap->tlen = len;
-	return (ap);
+	exit(1);
 }
