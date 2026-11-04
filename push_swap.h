@@ -26,4 +26,15 @@ char		**flags_parser(const char *s);
 void		free_flags(char **flags);
 void		flags_handler(const char *s);
 
+void		op_sa(t_ps_state state);
+void		op_sb(t_ps_state state);
+void		op_ss(t_ps_state state);
+void		op_pa(t_ps_state state);
+void		op_pb(t_ps_state state);
+void		op_ra(t_ps_state state);
+void		op_rb(t_ps_state state);
+void		op_rr(t_ps_state state);
+void		op_rra(t_ps_state state);
+void		op_rrb(t_ps_state state);
+void		op_rrr(t_ps_state state);
 #endif
