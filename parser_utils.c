@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/06 14:55:46 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/11/06 14:55:47 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	is_whitespace(char c)
@@ -7,15 +19,18 @@ int	is_whitespace(char c)
 	return (0);
 }
 
-int	contains_value(int *tab, size_t count, int value)
+int	contains_value(const t_stack *stack, int value)
 {
 	size_t	i;
+	t_node	*node;
 
 	i = 0;
-	while (i < count)
+	node = stack->top;
+	while (i < stack->size)
 	{
-		if (tab[i] == value)
+		if (node->value == value)
 			return (1);
+		node = node->next;
 		i++;
 	}
 	return (0);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/06 14:55:49 by mibaboul          #+#    #+#             */
+/*   Updated: 2026/11/06 14:55:50 by mibaboul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	fits_in_int(const char *s, size_t len, int sign)
@@ -46,26 +58,28 @@ static size_t	number_len(const char *s, t_ps_state *state)
 	return (i);
 }
 
-static void	append_number(int *res, size_t count, int value,
-		t_ps_state *state)
+static void	append_number(int value, t_ps_state *state)
 {
-	if (count == state->tlen)
+	t_node	*node;
+
+	if (contains_value(&state->a, value) == 1)
 		freexit(state);
-	if (contains_value(res, count, value) == 1)
+	node = node_new(value);
+	if (!node)
 		freexit(state);
-	res[count] = value;
+	stack_append(&state->a, node);
 }
 
-size_t	argtoint(const char *s, int *res, t_ps_state *state, size_t count)
+size_t	argtoint(const char *s, t_ps_state *state)
 {
 	size_t	i;
 	size_t	len;
 	size_t	old_count;
 
-	if (!s || !state || !res || count > state->tlen)
+	if (!s || !state)
 		freexit(state);
 	i = 0;
-	old_count = count;
+	old_count = state->a.size;
 	while (s[i])
 	{
 		while (s[i] && is_whitespace(s[i]) == 1)
@@ -73,12 +87,11 @@ size_t	argtoint(const char *s, int *res, t_ps_state *state, size_t count)
 		if (s[i])
 		{
 			len = number_len(s + i, state);
-			append_number(res, count, ft_atoi(s + i), state);
-			count++;
+			append_number(ft_atoi(s + i), state);
 			i += len;
 		}
 	}
-	if (count == old_count)
+	if (state->a.size == old_count)
 		freexit(state);
-	return (count);
+	return (state->a.size);
 }

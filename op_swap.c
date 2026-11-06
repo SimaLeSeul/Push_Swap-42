@@ -12,29 +12,28 @@
 
 #include "push_swap.h"
 
-void	op_sa(t_ps_state state)
+static void	stack_swap(t_stack *stack)
 {
-	int		tmp;
+	int	tmp;
 
-	if (state.pa <= 1)
+	if (stack->size < 2)
 		return ;
-	tmp = state.a[0];
-	state.a[0] = state.a[1];
-	state.a[1] = tmp;
+	tmp = stack->top->value;
+	stack->top->value = stack->top->next->value;
+	stack->top->next->value = tmp;
 }
 
-void	op_sb(t_ps_state state)
+void	op_sa(t_ps_state *state)
 {
-	int		tmp;
-
-	if (state.pb <= 1)
-		return ;
-	tmp = state.b[0];
-	state.b[0] = state.b[1];
-	state.b[1] = tmp;
+	stack_swap(&state->a);
 }
 
-void	op_ss(t_ps_state state)
+void	op_sb(t_ps_state *state)
+{
+	stack_swap(&state->b);
+}
+
+void	op_ss(t_ps_state *state)
 {
 	op_sa(state);
 	op_sb(state);

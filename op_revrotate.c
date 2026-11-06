@@ -12,41 +12,23 @@
 
 #include "push_swap.h"
 
-void	op_rra(t_ps_state state)
+static void	stack_rotate(t_stack *stack)
 {
-	int		i;
-	int		last;
-
-	if (state.pa <= 1)
-		return ;
-	i = state.pa - 1;
-	last = state.a[state.pa - 1];
-	while (i > 0)
-	{
-		state.a[i] = state.a[i - 1];
-		i--;
-	}
-	state.a[0] = last;
+	if (stack->size >= 2)
+		stack->top = stack->top->prev;
 }
 
-void	op_rrb(t_ps_state state)
+void	op_rra(t_ps_state *state)
 {
-	int		i;
-	int		last;
-
-	if (state.pb <= 1)
-		return ;
-	i = state.pb - 1;
-	last = state.b[state.pb - 1];
-	while (i > 0)
-	{
-		state.b[i] = state.b[i - 1];
-		i--;
-	}
-	state.b[0] = last;
+	stack_rotate(&state->a);
 }
 
-void	op_rrr(t_ps_state state)
+void	op_rrb(t_ps_state *state)
+{
+	stack_rotate(&state->b);
+}
+
+void	op_rrr(t_ps_state *state)
 {
 	op_rra(state);
 	op_rrb(state);
