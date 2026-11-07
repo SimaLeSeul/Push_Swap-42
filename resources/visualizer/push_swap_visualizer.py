@@ -243,7 +243,7 @@ class PushSwapScene(Scene):
         b = self.initial_b.copy()
         state = self.make_state(a, b)
         self.play(FadeIn(state), run_time=0.6)
-        self.wait(0.6)
+        self.wait(0.1)
 
         total = len(self.operations)
         if total == 0:
@@ -275,7 +275,7 @@ class PushSwapScene(Scene):
             ).move_to(operation_label)
             self.play(Transform(operation_label, final_label), run_time=0.4)
 
-        self.wait(2)
+        self.wait(0.05)
 
 
 def main() -> None:
