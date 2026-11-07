@@ -26,31 +26,24 @@ static int	strings_equal(const char *s1, const char *s2)
 	return (1);
 }
 
-static int	is_known_flag(const char *s)
+int	flags_handler(const char *s, t_ps_state *state)
 {
-	if (strings_equal(s, "simple") == 1 || strings_equal(s, "medium") == 1
-		|| strings_equal(s, "complex") == 1
-		|| strings_equal(s, "adaptive") == 1
-		|| strings_equal(s, "bench") == 1)
-		return (1);
-	return (0);
-}
-
-void	flags_handler(const char *s)
-{
-	char	**flags;
-	size_t	i;
-
-	flags = flags_parser(s);
-	i = 0;
-	while (flags[i])
+	if (!s || !state)
+		freexit(state);
+	if (strings_equal(s, "--bench") == 1)
 	{
-		if (is_known_flag(flags[i]) == 0)
-		{
-			free_flags(flags);
-			freexit(NULL);
-		}
-		i++;
+		state->bench = 1;
+		return (0);
 	}
-	free_flags(flags);
+	if (strings_equal(s, "--simple") == 1)
+		state->strategy = SIMPLE;
+	else if (strings_equal(s, "--medium") == 1)
+		state->strategy = MEDIUM;
+	else if (strings_equal(s, "--complex") == 1)
+		state->strategy = COMPLEX;
+	else if (strings_equal(s, "--adaptive") == 1)
+		state->strategy = ADAPTIVE;
+	else
+		freexit(state);
+	return (1);
 }

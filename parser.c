@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:49 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/06 14:55:50 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/07 17:20:23 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_ps_state	*parse_args(int argc, char **argv)
+{
+	t_ps_state	*state;
+	int			i;
+	int			has_strategy;
+
+	state = str_to_list();
+	if (!state || argc < 1 || !argv)
+		freexit(state);
+	i = 1;
+	has_strategy = 0;
+	while (i < argc)
+	{
+		if (!argv[i])
+			freexit(state);
+		if (argv[i][0] == '-' && argv[i][1] == '-')
+			has_strategy += flags_handler(argv[i], state);
+		else
+			argtoint(argv[i], state);
+		if (has_strategy > 1)
+			freexit(state);
+		i++;
+	}
+	if (argc > 1 && state->a.size == 0)
+		freexit(state);
+	return (state);
+}
 
 static int	fits_in_int(const char *s, size_t len, int sign)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/06 17:53:33 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/07 17:20:18 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,20 @@ typedef struct s_stack
 	size_t	size;
 }			t_stack;
 
+typedef enum e_strategy
+{
+	ADAPTIVE,
+	SIMPLE,
+	MEDIUM,
+	COMPLEX
+}			t_strategy;
+
 typedef struct s_ps_state
 {
-	t_stack	a;
-	t_stack	b;
+	t_stack		a;
+	t_stack		b;
+	t_strategy	strategy;
+	int			bench;
 }			t_ps_state;
 
 typedef struct s_nop
@@ -51,7 +61,9 @@ typedef struct s_nop
 	size_t	rrr;
 }			t_nop;
 
-long int	find_min_position(t_node *node, t_stack *stack);
+size_t		find_min_position(t_stack *stack);
+void		put_min_first(t_ps_state *state, t_nop *nop);
+void		simple_sort(t_ps_state *state, t_nop *nop);
 
 t_ps_state	*str_to_list(void);
 void		free_state(t_ps_state *state);
@@ -65,9 +77,8 @@ int			ft_atoi(const char *s);
 int			contains_value(const t_stack *stack, int value);
 size_t		argtoint(const char *s, t_ps_state *state);
 
-char		**flags_parser(const char *s);
-void		free_flags(char **flags);
-void		flags_handler(const char *s);
+t_ps_state	*parse_args(int argc, char **argv);
+int			flags_handler(const char *s, t_ps_state *state);
 
 void		op_sa(t_ps_state *state);
 void		op_sb(t_ps_state *state);
