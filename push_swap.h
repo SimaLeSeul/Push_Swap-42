@@ -6,7 +6,7 @@
 /*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 19:56:30 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/08 20:10:54 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ size_t		find_min_position(t_stack *stack);
 double		calculate_disorder(const t_stack *a);
 void		put_min_first(t_ps_state *state, t_nop *nop);
 void		simple_sort(t_ps_state *state, t_nop *nop);
-int			stack_is_sorted(const t_stack *stack);
-int			*sorted_values(t_ps_state *state);
-
+void		medium_sort(t_ps_state *state, t_nop *nop);
+void		complex_sort(t_ps_state *state, t_nop *nop);
 t_ps_state	*str_to_list(void);
 void		free_state(t_ps_state *state);
 void		freexit(t_ps_state *state);
