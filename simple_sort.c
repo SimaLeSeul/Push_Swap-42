@@ -6,7 +6,7 @@
 /*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:08:15 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/07 17:20:50 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/08 18:55:07 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ void	put_min_first(t_ps_state *state, t_nop *nop)
 	{
 		count = min_pos;
 		while (i++ < count)
-			op_ra(state);
+			op_ra(state, 0);
 		nop->ra += count;
 	}
 	else
 	{
 		count = state->a.size - min_pos;
 		while (i++ < count)
-			op_rra(state);
+			op_rra(state, 0);
 		nop->rra += count;
 	}
 }
 
-static int	stack_is_sorted(const t_stack *stack)
+int	stack_is_sorted(const t_stack *stack)
 {
 	t_node	*node;
 	size_t	i;

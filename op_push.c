@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 20:23:22 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/02 20:57:09 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/08 16:02:32 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ static void	stack_push(t_stack *source, t_stack *destination)
 void	op_pa(t_ps_state *state)
 {
 	stack_push(&state->b, &state->a);
+	ft_printf("pa\n");
 }
 
 void	op_pb(t_ps_state *state)
 {
 	stack_push(&state->a, &state->b);
+	ft_printf("pb\n");
 }
