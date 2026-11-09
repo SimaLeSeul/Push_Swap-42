@@ -6,7 +6,7 @@
 /*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 20:10:54 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:02:07 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_node
 {
 	int				value;
+	size_t			rank;
 	struct s_node	*next;
 	struct s_node	*prev;
 }			t_node;
@@ -68,6 +69,7 @@ void		execute(t_ps_state *state, double disorder, int bflag, t_nop *nop);
 
 size_t		find_min_position(t_stack *stack);
 double		calculate_disorder(const t_stack *a);
+int			stack_is_sorted(const t_stack *stack);
 void		put_min_first(t_ps_state *state, t_nop *nop);
 void		simple_sort(t_ps_state *state, t_nop *nop);
 void		medium_sort(t_ps_state *state, t_nop *nop);
