@@ -1,0 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_pack_6b_2.c               :+:      :+:    :+:    #		*/
+/*                                                    +:+ +:+         +:+     */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 02:43:43 by jecourto          #+#    #+#             */
+/*   Updated: 2026/11/10 02:44:33 by jecourto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "packing_utils.h"
+
+char	*make_pack_6b_2(char *perm_label)
+{
+	if (perm_label[1] == '1')
+		return (make_pack_6b_21(perm_label));
+	if (perm_label[1] == '3')
+		return (make_pack_6b_23(perm_label));
+	if (perm_label[1] == '4')
+		return (make_pack_6b_24(perm_label));
+	if (perm_label[1] == '5')
+		return (make_pack_6b_25(perm_label));
+	if (perm_label[1] == '6')
+		return (make_pack_6b_26(perm_label));
+	return (NULL);
+}

@@ -1,0 +1,2 @@
+	if (perm_label[{pos}] == '{case}')
+		return ({func_name}{sep}{case}(perm_label));
