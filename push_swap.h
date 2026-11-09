@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/09 18:02:07 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/09 19:21:30 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+# include "structures.h"
 # include "libft/libft.h"
-
-typedef struct s_node
-{
-	int				value;
-	size_t			rank;
-	struct s_node	*next;
-	struct s_node	*prev;
-}			t_node;
-
-typedef struct s_stack
-{
-	t_node	*top;
-	size_t	size;
-}			t_stack;
-
-typedef enum e_strategy
-{
-	ADAPTIVE,
-	SIMPLE,
-	MEDIUM,
-	COMPLEX
-}			t_strategy;
-
-typedef struct s_ps_state
-{
-	t_stack		a;
-	t_stack		b;
-	t_strategy	strategy;
-	int			bench;
-}			t_ps_state;
-
-typedef struct s_nop
-{
-	size_t	sa;
-	size_t	sb;
-	size_t	ss;
-	size_t	pa;
-	size_t	pb;
-	size_t	ra;
-	size_t	rb;
-	size_t	rr;
-	size_t	rra;
-	size_t	rrb;
-	size_t	rrr;
-}			t_nop;
 
 double		calculate_disorder(const t_stack *a);
 void		bench(t_nop *nop, double disorder, t_ps_state *state);
@@ -99,4 +55,5 @@ void		op_rr(t_ps_state *state);
 void		op_rra(t_ps_state *state, int flag);
 void		op_rrb(t_ps_state *state, int flag);
 void		op_rrr(t_ps_state *state);
+
 #endif
