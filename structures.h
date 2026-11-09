@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:48 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/09 19:21:06 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/09 22:39:48 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ typedef struct s_stack
 	t_node	*top;
 	size_t	size;
 }			t_stack;
+
+typedef enum e_stack_name
+{
+	STACK_A,
+	STACK_B,
+}			t_stack_name;
 
 typedef enum e_strategy
 {
