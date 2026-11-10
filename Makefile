@@ -8,7 +8,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRC = flags_handler.c parser.c parser_utils.c push_swap.c stack.c \
 	op_push.c op_swap.c op_rotate.c op_revrotate.c simple_sort.c \
-	main.c complex_sort.c
+	main.c complex_sort.c medium_sort.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
