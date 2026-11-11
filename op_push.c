@@ -3,31 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 20:23:22 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/08 16:02:32 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 05:54:04 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	stack_push(t_stack *source, t_stack *destination)
+static void	*stack_pop(t_stack source)
 {
 	t_node	*node;
 
-	if (source->size == 0)
-		return ;
-	node = source->top;
-	if (source->size == 1)
-		source->top = NULL;
+	node = source.top;
+	if (node == NULL)
+		return (NULL);
+	if (source.size == 1)
+		source.top = NULL;
 	else
 	{
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
-		source->top = node->next;
+		source.top = node->next;
 	}
-	source->size--;
+	source.size--;
+	return (node);
+}
+
+static void	stack_push(t_stack *source, t_stack *destination)
+{
+	t_node	*node;
+
+	node = stack_pop(*source);
+	if (node == NULL)
+		return ;
 	stack_append(destination, node);
 	destination->top = node;
 }

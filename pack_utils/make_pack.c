@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 18:22:25 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 03:18:46 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:18:37 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,22 @@
 #include "packing.h"
 #include "utils/packing_utils.h"
 
-static char	*make_pack_a(size_t n, char *perm_label)
+static t_node	*create_pack(size_t n, t_stack *packlist)
 {
+	t_node	*pack;
+
+	pack = malloc(sizeof(t_node));
+	if (pack == NULL)
+		return (NULL);
+	pack->rank = n;
+	stack_append(packlist, pack);
+	return (pack);
+}
+
+static char	*make_pack_a(size_t n, char *perm_label, t_stack *packlist)
+{
+	if (create_pack(n, packlist) == NULL)
+		return (NULL);
 	if (n == 1)
 		return ("ra");
 	if (n == 2)
@@ -31,8 +45,10 @@ static char	*make_pack_a(size_t n, char *perm_label)
 	return (NULL);
 }
 
-static char	*make_pack_b(size_t n, char *perm_label)
+static char	*make_pack_b(size_t n, char *perm_label, t_stack *packlist)
 {
+	if (create_pack(n, packlist) == NULL)
+		return (NULL);
 	if (n == 1)
 		return ("pb");
 	if (n == 2)
@@ -57,11 +73,13 @@ void	make_pack(t_stack_name stack, size_t n, t_ps_state *state)
 	if (perm_label == NULL)
 		return ;
 	if (stack == STACK_A)
-		raw_result = make_pack_a(n, perm_label);
+		raw_result = make_pack_a(n, perm_label, state->a.packs);
 	else if (stack == STACK_B)
-		raw_result = make_pack_b(n, perm_label);
+		raw_result = make_pack_b(n, perm_label, state->b.packs);
 	else
 		raw_result = NULL;
 	free(perm_label);
+	if (raw_result == NULL)
+		freexit(state);
 	op_apply_list(state, ft_split(raw_result, ','));
 }

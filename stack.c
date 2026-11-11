@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:53 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/07 17:20:54 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:06:52 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	stack_clear(t_stack *stack)
 	t_node	*next;
 	size_t	remaining;
 
+	if (stack == NULL)
+		return ;
 	node = stack->top;
 	remaining = stack->size;
 	while (remaining > 0)
@@ -60,4 +62,5 @@ void	stack_clear(t_stack *stack)
 	}
 	stack->top = NULL;
 	stack->size = 0;
+	stack_clear(stack->packs);
 }
