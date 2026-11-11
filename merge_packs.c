@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 04:44:23 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 04:51:36 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 09:01:07 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 static void	put_pack_to_a(t_ps_state state, size_t size_a, size_t size_b)
 {
+	t_stack		*packlist_a;
+	t_stack		*packlist_b;
+
+	packlist_a = state.a.packs;
+	packlist_b = state.b.packs;
+	packlist_a->top = packlist_a->top->prev;
+	packlist_a->top->rank += stack_pop(packlist_b)->rank;
 	while (size_a > 0)
 	{
 		op_rra(&state);
@@ -26,17 +33,16 @@ static void	put_pack_to_a(t_ps_state state, size_t size_a, size_t size_b)
 	}
 }
 
-void	merge_pack_to_a(t_ps_state state, size_t size_a, size_t size_b)
+void	merge_pack_to_a(t_ps_state state)
 {
-	t_node		*bot_a;
-	t_node		*top_b;
+	size_t		size_a;
+	size_t		size_b;
 
-	if (size_a > 0)
-		bot_a = state.a.top->prev;
-	top_b = state.b.top;
+	size_a = state.a.packs->top->rank;
+	size_b = state.b.packs->top->rank;
 	while (size_a > 0 && size_b > 0)
 	{
-		if (bot_a->value < top_b->value)
+		if (state.a.top->prev->value < state.b.top->value)
 		{
 			op_pa(&state);
 			size_b--;
@@ -52,6 +58,13 @@ void	merge_pack_to_a(t_ps_state state, size_t size_a, size_t size_b)
 
 static void	put_pack_to_b(t_ps_state state, size_t size_a, size_t size_b)
 {
+	t_stack		*packlist_a;
+	t_stack		*packlist_b;
+
+	packlist_a = state.a.packs;
+	packlist_b = state.b.packs;
+	packlist_b->top = packlist_b->top->prev;
+	packlist_b->top->rank += stack_pop(packlist_a)->rank;
 	while (size_a > 0)
 	{
 		op_pb(&state);
@@ -64,17 +77,16 @@ static void	put_pack_to_b(t_ps_state state, size_t size_a, size_t size_b)
 	}
 }
 
-void	merge_pack_to_b(t_ps_state state, size_t size_a, size_t size_b)
+void	merge_pack_to_b(t_ps_state state)
 {
-	t_node		*bot_b;
-	t_node		*top_a;
+	size_t		size_a;
+	size_t		size_b;
 
-	if (size_b > 0)
-		bot_b = state.b.top->prev;
-	top_a = state.a.top;
+	size_a = state.a.packs->top->rank;
+	size_b = state.b.packs->top->rank;
 	while (size_a > 0 && size_b > 0)
 	{
-		if (bot_b->value < top_a->value)
+		if (state.b.top->prev->value < state.a.top->value)
 		{
 			op_rrb(&state);
 			size_b--;

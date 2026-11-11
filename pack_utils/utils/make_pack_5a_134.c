@@ -17,6 +17,6 @@ char	*make_pack_5a_134(char *perm_label)
 	if (perm_label[3] == '2')
 		return ("ra,pb,sa,ra,pa,ra,ra,ra");
 	if (perm_label[3] == '5')
-		return ("pb,ra,ra,ra,sa,pb,ss,pa,sa,pa");
+		return ("ra,pb,pb,sa,ra,pa,pa,ra,ra,ra");
 	return (NULL);
 }

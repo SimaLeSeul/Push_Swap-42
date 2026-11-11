@@ -9,6 +9,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 def nested_dict():
 	return defaultdict(nested_dict)
 
+def default_nested_dict(iterable):
+	return defaultdict(nested_dict, iterable)
+
 PATTERN_NAME = re.compile(r".*(?P<n>\d)_(?P<s>A|B).txt")
 
 PATTERN_LINE = re.compile(r"^\d, \((?P<label>[\d, ]+)\), \[(?P<ops>(([a-z]+)|.)+)\]$")

@@ -3,7 +3,7 @@ from itertools import permutations
 import json
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-OUT_PATH = f"{DIR_PATH}/../utils/src/"
+OUT_PATH = f"{DIR_PATH}/../utils/"
 
 
 def main_fork_nodes():
@@ -49,9 +49,9 @@ def main_fork_results():
 			lll.add(func_name)
 			case1 = perm[-2]
 			case2 = perm[-1]
-			out1 = ",".join(ops)
+			out1 = ops
 			perm = perm[:-2] + case2 + case1
-			out2 = ",".join(perms[perm])
+			out2 = perms[perm]
 			with open(f"{OUT_PATH}/{func_name}.c", "w") as file:
 				file.write(mask.format(
 					func_name=func_name, pos=len(perm)-2, case_1=case1, case_2=case2,

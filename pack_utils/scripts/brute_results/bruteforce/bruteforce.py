@@ -20,12 +20,16 @@ Example:
 
 from __future__ import annotations
 
-from collections import deque
+from collections import defaultdict, deque
+import json
+import os
 from typing import Deque, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from itertools import permutations
 
 DEFAULT_MAX_STATES = 500_000_000
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+print(DIR_PATH)
 
 Operation = str
 State = Tuple[Tuple[int, ...], Tuple[int, ...]]
@@ -39,11 +43,20 @@ class ForbiddenOperation(ValueError):
     pass
 
 
+def nested_dict():
+	return defaultdict(nested_dict)
+
+def default_nested_dict(iterable):
+	return defaultdict(nested_dict, iterable)
+
+
 def apply_operation(state: State, op: Operation) -> State:
     a, b = list(state[0]), list(state[1])
 
     def swap(s: List[int]) -> None:
         if len(s) >= 2:
+            if not ((1 <= s[0] <= 6) and (1 <= s[1] <= 6)):
+            	raise ForbiddenOperation
             s[0], s[1] = s[1], s[0]
         else:
             raise ForbiddenOperation
@@ -74,11 +87,14 @@ def apply_operation(state: State, op: Operation) -> State:
         swap(a)
         swap(b)
     elif op == "pa":
-        if b:
-            a.insert(0, b.pop(0))
+        if not (b and (1 <= b[0] <= 6)):
+            raise ForbiddenOperation
+        a.insert(0, b.pop(0))
+            
     elif op == "pb":
-        if a:
-            b.insert(0, a.pop(0))
+        if not (a and (1 <= a[0] <= 6)):
+            raise ForbiddenOperation
+        b.insert(0, a.pop(0))
     elif op == "ra":
         rotate(a)
     elif op == "rb":
@@ -188,20 +204,24 @@ def pack(
     raise RuntimeError("No valid packing sequence exists")
 
 
-def brute_force_a():
-    for n in range(1, 5):
+def brute_force():
+    data = nested_dict()
+    for n in range(1, 6):
         for perm in permutations(range(1, 1 + n)):
             ops = pack("A", n, perm + (11, 12), (13, 14))
-            with open(f"results_{n}_A.txt", "a") as file:
-                print(f"{n}, {perm}, {ops}", file=file)
+            label = "".join(map(str, perm))
+            data[f"{n}a"][label] = ",".join(ops)
+        print(f"{n}a")
 
-
-def brute_force_b():
     for n in range(1, 7):
         for perm in permutations(range(1, 1 + n)):
             ops = pack("B", n, perm + (11, 12), (13, 14))
-            with open(f"results_{n}_B.txt", "a") as file:
-                print(f"{n}, {perm}, {ops}", file=file)
+            label = "".join(map(str, perm))
+            data[f"{n}b"][label] =  ",".join(ops)
+        print(f"{n}b")
+
+    with open(f"{DIR_PATH}/resultsss.json", "w") as file:
+        json.dump(data, file)
 
 
 def apply_operations(
@@ -220,8 +240,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Find a shortest push_swap packing sequence")
-    parser.add_argument("-brute_a", action="store_true")
-    parser.add_argument("-brute_b", action="store_true")
+    parser.add_argument("-brute", action="store_true")
     parser.add_argument("target", choices=("A", "B", "a", "b"))
     parser.add_argument("n", type=int, choices=range(1, 7))
     parser.add_argument("--a", nargs="*", type=int, default=[], help="Stack A, top first")
@@ -229,10 +248,8 @@ if __name__ == "__main__":
     parser.add_argument("--max-states", type=int, default=DEFAULT_MAX_STATES)
     args = parser.parse_args()
 
-    if args.brute_a:
-        brute_force_a()
-    elif args.brute_b:
-        brute_force_b()
+    if args.brute:
+        brute_force()
     else:
         ops = pack(args.target, args.n, args.a, args.b, max_states=args.max_states)
         final_a, final_b = apply_operations(args.a, args.b, ops)

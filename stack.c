@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:53 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/11 06:06:52 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:37:43 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,6 @@ void	stack_clear(t_stack *stack)
 	stack->top = NULL;
 	stack->size = 0;
 	stack_clear(stack->packs);
+	if (stack->packs != NULL)
+		free(stack->packs);
 }
