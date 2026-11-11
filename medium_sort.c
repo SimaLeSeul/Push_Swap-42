@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 10:08:15 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 10:13:40 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,6 @@ void	medium_sort(t_ps_state *state, t_nop *nop)
 		if (state->a.packs->size > state->b.packs->size)
 			merge_pack_to_b(*state);
 		else
-			merge_pack_to_a(*state);
+			merge_pack_to_a(state);
 	}
 }

@@ -6,50 +6,50 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 04:44:23 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 09:01:07 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 10:11:21 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	put_pack_to_a(t_ps_state state, size_t size_a, size_t size_b)
+static void	put_pack_to_a(t_ps_state *state, size_t size_a, size_t size_b)
 {
 	t_stack		*packlist_a;
 	t_stack		*packlist_b;
 
-	packlist_a = state.a.packs;
-	packlist_b = state.b.packs;
+	packlist_a = state->a.packs;
+	packlist_b = state->b.packs;
 	packlist_a->top = packlist_a->top->prev;
 	packlist_a->top->rank += stack_pop(packlist_b)->rank;
 	while (size_a > 0)
 	{
-		op_rra(&state);
+		op_rra(state);
 		size_a--;
 	}
 	while (size_b > 0)
 	{
-		op_pa(&state);
+		op_pa(state);
 		size_b--;
 	}
 }
 
-void	merge_pack_to_a(t_ps_state state)
+void	merge_pack_to_a(t_ps_state *state)
 {
 	size_t		size_a;
 	size_t		size_b;
 
-	size_a = state.a.packs->top->rank;
-	size_b = state.b.packs->top->rank;
+	size_a = state->a.packs->top->rank;
+	size_b = state->b.packs->top->rank;
 	while (size_a > 0 && size_b > 0)
 	{
-		if (state.a.top->prev->value < state.b.top->value)
+		if (state->a.top->prev->value < state->b.top->value)
 		{
-			op_pa(&state);
+			op_pa(state);
 			size_b--;
 		}
 		else
 		{
-			op_rra(&state);
+			op_rra(state);
 			size_a--;
 		}
 	}
