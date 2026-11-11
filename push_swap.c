@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:53 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/09 18:07:52 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:08:48 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ t_ps_state	*str_to_list(void)
 	if (!state)
 		return (NULL);
 	state->a.top = NULL;
+	state->a.packs = NULL;
 	state->a.size = 0;
 	state->b.top = NULL;
+	state->b.packs = NULL;
 	state->b.size = 0;
 	state->strategy = ADAPTIVE;
 	state->bench = 0;

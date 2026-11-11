@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 00:51:01 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 01:24:32 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:51:29 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	op_apply(t_ps_state *state, char *op)
 		op_sa(state);
 	else if (strings_equal(op, "sb"))
 		op_sb(state);
+	else if (strings_equal(op, "ss"))
+		op_ss(state);
 	else if (strings_equal(op, "pa"))
 		op_pa(state);
 	else if (strings_equal(op, "pb"))
