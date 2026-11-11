@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   flags_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:33 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 17:45:10 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 00:49:45 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static int	strings_equal(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	flags_handler(const char *s, t_ps_state *state)
 {

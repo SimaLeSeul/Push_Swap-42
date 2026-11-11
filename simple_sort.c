@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:08:15 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 18:55:07 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 01:00:14 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	put_min_first(t_ps_state *state, t_nop *nop)
 	{
 		count = min_pos;
 		while (i++ < count)
-			op_ra(state, 0);
+			op_ra(state);
 		nop->ra += count;
 	}
 	else
 	{
 		count = state->a.size - min_pos;
 		while (i++ < count)
-			op_rra(state, 0);
+			op_rra(state);
 		nop->rra += count;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 20:11:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/08 18:57:16 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 01:01:36 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,21 @@ static void	stack_swap(t_stack *stack)
 	stack->top->next->value = tmp;
 }
 
-void	op_sa(t_ps_state *state, int flag)
+void	op_sa(t_ps_state *state)
 {
 	stack_swap(&state->a);
-	if (flag == 0)
-		ft_printf("sa\n");
+	ft_printf("sa\n");
 }
 
-void	op_sb(t_ps_state *state, int flag)
+void	op_sb(t_ps_state *state)
 {
 	stack_swap(&state->b);
-	if (flag == 0)
-		ft_printf("sb\n");
+	ft_printf("sb\n");
 }
 
 void	op_ss(t_ps_state *state)
 {
-	op_sa(state, 1);
-	op_sb(state, 1);
+	stack_swap(&state->a);
+	stack_swap(&state->b);
 	ft_printf("ss\n");
 }

@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/09 19:21:30 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 01:13:55 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_node		*node_new(int value);
 void		stack_append(t_stack *stack, t_node *node);
 void		stack_clear(t_stack *stack);
 
+int			strings_equal(const char *s1, const char *s2);
 int			is_whitespace(char c);
 int			contains_value(const t_stack *stack, int value);
 size_t		argtoint(const char *s, t_ps_state *state);
@@ -44,16 +45,19 @@ size_t		argtoint(const char *s, t_ps_state *state);
 t_ps_state	*parse_args(int argc, char **argv);
 int			flags_handler(const char *s, t_ps_state *state);
 
-void		op_sa(t_ps_state *state, int flag);
-void		op_sb(t_ps_state *state, int flag);
+void		op_sa(t_ps_state *state);
+void		op_sb(t_ps_state *state);
 void		op_ss(t_ps_state *state);
 void		op_pa(t_ps_state *state);
 void		op_pb(t_ps_state *state);
-void		op_ra(t_ps_state *state, int flag);
-void		op_rb(t_ps_state *state, int flag);
+void		op_ra(t_ps_state *state);
+void		op_rb(t_ps_state *state);
 void		op_rr(t_ps_state *state);
-void		op_rra(t_ps_state *state, int flag);
-void		op_rrb(t_ps_state *state, int flag);
+void		op_rra(t_ps_state *state);
+void		op_rrb(t_ps_state *state);
 void		op_rrr(t_ps_state *state);
+
+void		op_apply(t_ps_state *state, char *op);
+void		op_apply_list(t_ps_state *state, char **ops);
 
 #endif

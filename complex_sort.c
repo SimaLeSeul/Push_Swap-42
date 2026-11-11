@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex_sort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 16:53:17 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/09 18:01:21 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/11 01:00:36 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	distribute_bit(t_ps_state *state, t_nop *nop, size_t bit)
 		}
 		else
 		{
-			op_ra(state, 0);
+			op_ra(state);
 			nop->ra++;
 		}
 		rest--;
