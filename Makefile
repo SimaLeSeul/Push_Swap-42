@@ -1,7 +1,7 @@
 NAME = push_swap
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -Werror -I. -g
 RM = rm -f
 
 LIBFT_DIR = libft
@@ -39,4 +39,4 @@ re: fclean
 
 FORCE:
 
-.PHONY: all clean fclean re FORCE
+.PHONY: all debug clean fclean re FORCE

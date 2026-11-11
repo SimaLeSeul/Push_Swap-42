@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/11 10:35:10 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/11 20:08:41 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_node		*node_new(int value);
 void		stack_append(t_stack *stack, t_node *node);
 void		stack_clear(t_stack *stack);
 t_node		*stack_pop(t_stack *source);
+void		stack_revrotate(t_stack *stack);
 
 int			strings_equal(const char *s1, const char *s2);
 int			is_whitespace(char c);

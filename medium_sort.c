@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   medium_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/12 03:01:38 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/13 00:57:46 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,21 @@ void	medium_sort(t_ps_state *state)
 		freexit(state);
 	nb_packs_b = ft_fibonacci(state->a.size / 5, &nb_packs_a);
 	size_packs_b = 6;
-	if (((state->a.size) - size_packs_b * nb_packs_b) / 3 < nb_packs_a)
-		size_packs_b--;
-	while (nb_packs_b-- > 0)
+	while (nb_packs_b > 0)
+	{
+		debug(state);
 		make_pack(STACK_B, size_packs_b, state);
+		nb_packs_b--;
+		if (state->a.size < 3 * nb_packs_a + size_packs_b * nb_packs_b)
+			size_packs_b--;
+	}
+	debug(state);
 	pack_a(state, nb_packs_a, state->a.size);
 	while (state->b.packs->size > 0)
+	{
+		debug(state);
 		merge_packs(state);
+	}
 	if (0)
 		debug(state);
 }
