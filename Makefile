@@ -23,7 +23,7 @@ $(NAME): $(OBJ) $(LIBFT)
 $(LIBFT): FORCE
 	$(MAKE) -C $(LIBFT_DIR) CC="$(CC)" CFLAGS="$(CFLAGS)"
 
-%.o: %.c push_swap.h $(LIBFT_DIR)/libft.h $(LIBFT_DIR)/ft_printf/ft_printf.h
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
