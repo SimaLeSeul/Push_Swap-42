@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   medium_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 10:45:12 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/12 03:01:38 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "pack_utils/packing.h"
 
-static void debug(t_ps_state *state)
+static void	debug(t_ps_state *state)
 {
 	size_t	i;
 	t_node	*node;
@@ -102,13 +102,12 @@ static void	pack_a(t_ps_state *state, size_t nb_packs_a, size_t size_a)
 	make_pack(STACK_A, size_a, state);
 }
 
-void	medium_sort(t_ps_state *state, t_nop *nop)
+void	medium_sort(t_ps_state *state)
 {
 	size_t		nb_packs_a;
 	size_t		nb_packs_b;
 	size_t		size_packs_b;
 
-	(void) nop;
 	state->a.packs = new_packlist();
 	state->b.packs = new_packlist();
 	if (state->a.packs == NULL || state->b.packs == NULL)

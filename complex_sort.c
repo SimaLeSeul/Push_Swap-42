@@ -54,7 +54,7 @@ static size_t	count_bits(size_t max)
 	return (bits);
 }
 
-static void	distribute_bit(t_ps_state *state, t_nop *nop, size_t bit)
+static void	distribute_bit(t_ps_state *state, size_t bit)
 {
 	size_t	rest;
 
@@ -62,29 +62,20 @@ static void	distribute_bit(t_ps_state *state, t_nop *nop, size_t bit)
 	while (rest > 0)
 	{
 		if (((state->a.top->rank >> bit) & 1) == 0)
-		{
 			op_pb(state);
-			nop->pb++;
-		}
 		else
-		{
 			op_ra(state);
-			nop->ra++;
-		}
 		rest--;
 	}
 }
 
-static void	restore_a(t_ps_state *state, t_nop *nop)
+static void	restore_a(t_ps_state *state)
 {
 	while (state->b.size > 0)
-	{
 		op_pa(state);
-		nop->pa++;
-	}
 }
 
-void	complex_sort(t_ps_state *state, t_nop *nop)
+void	complex_sort(t_ps_state *state)
 {
 	size_t	bit;
 	size_t	bits;
@@ -98,8 +89,8 @@ void	complex_sort(t_ps_state *state, t_nop *nop)
 	bit = 0;
 	while (bit < bits)
 	{
-		distribute_bit(state, nop, bit);
-		restore_a(state, nop);
+		distribute_bit(state, bit);
+		restore_a(state);
 		bit++;
 	}
 }

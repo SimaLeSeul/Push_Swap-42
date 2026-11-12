@@ -53,14 +53,20 @@ static void	bench_strategy(double disorder, t_ps_state *state)
 		ft_printf_fd(2, "Adaptive | O(n*log(n))\n");
 }
 
-void	bench(t_nop *nop, double disorder, t_ps_state *state)
+void	bench(t_ps_state *state, double disorder)
 {
 	size_t			total_ops;
 	size_t			percent;
+	size_t			pairs;
+	const t_nop		*nop;
 
+	nop = &state->nop;
 	total_ops = nop->pa + nop->pb + nop->sa + nop->sb + nop->ss
 		+ nop->ra + nop->rb + nop->rr + nop->rra + nop->rrb + nop->rrr;
-	percent = (size_t)(disorder * 10000.0 + 0.5);
+	pairs = state->a.size * (state->a.size - 1) / 2;
+	percent = (size_t)(disorder * pairs + 0.5);
+	if (pairs > 0)
+		percent = (percent * 10000 + pairs / 2) / pairs;
 	ft_printf_fd(2, "[bench] disorder :%zu.", percent / 100);
 	if (percent % 100 < 10)
 		ft_printf_fd(2, "0");
@@ -75,26 +81,26 @@ void	bench(t_nop *nop, double disorder, t_ps_state *state)
 		nop->rra, nop->rrb, nop->rrr);
 }
 
-void	execute(t_ps_state *state, double disorder, int bflag, t_nop *nop)
+void	execute(t_ps_state *state, double disorder)
 {
-	ft_bzero(nop, sizeof(t_nop));
+	ft_bzero(&state->nop, sizeof(t_nop));
 	if (state->strategy == ADAPTIVE)
 	{
 		if (disorder < 0.2)
-			simple_sort(state, nop);
+			simple_sort(state);
 		else if (disorder < 0.5)
-			medium_sort(state, nop);
+			medium_sort(state);
 		else
-			complex_sort(state, nop);
+			complex_sort(state);
 	}
 	else if (state->strategy == SIMPLE)
-		simple_sort(state, nop);
+		simple_sort(state);
 	else if (state->strategy == MEDIUM)
-		medium_sort(state, nop);
+		medium_sort(state);
 	else if (state->strategy == COMPLEX)
-		complex_sort(state, nop);
-	if (bflag == 1)
-		bench(nop, disorder, state);
+		complex_sort(state);
+	if (state->bench == 1)
+		bench(state, disorder);
 	return ;
 }
 
@@ -102,10 +108,9 @@ int	main(int ac, char **av)
 {
 	double		disorder;
 	t_ps_state	*state;
-	t_nop		nop;
 
 	state = parse_args(ac, av);
 	disorder = calculate_disorder(&state->a);
-	execute(state, disorder, state->bench, &nop);
+	execute(state, disorder);
 	free_state(state);
 }

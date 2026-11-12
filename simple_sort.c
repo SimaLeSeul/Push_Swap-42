@@ -38,13 +38,13 @@ size_t	find_min_position(t_stack *stack)
 	return (min_pos);
 }
 
-void	put_min_first(t_ps_state *state, t_nop *nop)
+void	put_min_first(t_ps_state *state)
 {
 	size_t	min_pos;
 	size_t	i;
 	size_t	count;
 
-	if (!state || !nop)
+	if (!state)
 		freexit(state);
 	if (state->a.size == 0)
 		return ;
@@ -55,14 +55,12 @@ void	put_min_first(t_ps_state *state, t_nop *nop)
 		count = min_pos;
 		while (i++ < count)
 			op_ra(state);
-		nop->ra += count;
 	}
 	else
 	{
 		count = state->a.size - min_pos;
 		while (i++ < count)
 			op_rra(state);
-		nop->rra += count;
 	}
 }
 
@@ -83,21 +81,19 @@ int	stack_is_sorted(const t_stack *stack)
 	return (1);
 }
 
-void	simple_sort(t_ps_state *state, t_nop *nop)
+void	simple_sort(t_ps_state *state)
 {
-	if (!state || !nop)
+	if (!state)
 		freexit(state);
 	if (state->b.size == 0 && stack_is_sorted(&state->a) == 1)
 		return ;
 	while (state->a.size > 0)
 	{
-		put_min_first(state, nop);
+		put_min_first(state);
 		op_pb(state);
-		nop->pb++;
 	}
 	while (state->b.size > 0)
 	{
 		op_pa(state);
-		nop->pa++;
 	}
 }

@@ -27,6 +27,7 @@ t_ps_state	*str_to_list(void)
 	state->b.size = 0;
 	state->strategy = ADAPTIVE;
 	state->bench = 0;
+	ft_bzero(&state->nop, sizeof(t_nop));
 	return (state);
 }
 

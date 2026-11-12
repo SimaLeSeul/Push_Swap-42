@@ -46,10 +46,12 @@ void	op_pa(t_ps_state *state)
 {
 	stack_push(&state->b, &state->a);
 	ft_printf("pa\n");
+	state->nop.pa++;
 }
 
 void	op_pb(t_ps_state *state)
 {
 	stack_push(&state->a, &state->b);
 	ft_printf("pb\n");
+	state->nop.pb++;
 }

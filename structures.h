@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:48 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 05:23:41 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/12 02:58:31 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,6 @@ typedef enum e_strategy
 	COMPLEX
 }			t_strategy;
 
-typedef struct s_ps_state
-{
-	t_stack		a;
-	t_stack		b;
-	t_strategy	strategy;
-	int			bench;
-}			t_ps_state;
-
 typedef struct s_nop
 {
 	size_t	sa;
@@ -66,5 +58,14 @@ typedef struct s_nop
 	size_t	rrb;
 	size_t	rrr;
 }			t_nop;
+
+typedef struct s_ps_state
+{
+	t_stack			a;
+	t_stack			b;
+	t_nop			nop;
+	t_strategy		strategy;
+	int				bench;
+}				t_ps_state;
 
 #endif

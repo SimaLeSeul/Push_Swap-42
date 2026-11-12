@@ -27,12 +27,14 @@ void	op_sa(t_ps_state *state)
 {
 	stack_swap(&state->a);
 	ft_printf("sa\n");
+	state->nop.sa++;
 }
 
 void	op_sb(t_ps_state *state)
 {
 	stack_swap(&state->b);
 	ft_printf("sb\n");
+	state->nop.sb++;
 }
 
 void	op_ss(t_ps_state *state)
@@ -40,4 +42,5 @@ void	op_ss(t_ps_state *state)
 	stack_swap(&state->a);
 	stack_swap(&state->b);
 	ft_printf("ss\n");
+	state->nop.ss++;
 }

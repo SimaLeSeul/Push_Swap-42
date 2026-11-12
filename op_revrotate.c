@@ -22,12 +22,14 @@ void	op_rra(t_ps_state *state)
 {
 	stack_revrotate(&state->a);
 	ft_printf("rra\n");
+	state->nop.rra++;
 }
 
 void	op_rrb(t_ps_state *state)
 {
 	stack_revrotate(&state->b);
 	ft_printf("rrb\n");
+	state->nop.rrb++;
 }
 
 void	op_rrr(t_ps_state *state)
@@ -35,4 +37,5 @@ void	op_rrr(t_ps_state *state)
 	stack_revrotate(&state->a);
 	stack_revrotate(&state->b);
 	ft_printf("rrr\n");
+	state->nop.rrr++;
 }

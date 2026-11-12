@@ -20,16 +20,16 @@
 # include "libft/libft.h"
 
 double		calculate_disorder(const t_stack *a);
-void		bench(t_nop *nop, double disorder, t_ps_state *state);
-void		execute(t_ps_state *state, double disorder, int bflag, t_nop *nop);
+void		bench(t_ps_state *state, double disorder);
+void		execute(t_ps_state *state, double disorder);
 
 size_t		find_min_position(t_stack *stack);
 double		calculate_disorder(const t_stack *a);
 int			stack_is_sorted(const t_stack *stack);
-void		put_min_first(t_ps_state *state, t_nop *nop);
-void		simple_sort(t_ps_state *state, t_nop *nop);
-void		medium_sort(t_ps_state *state, t_nop *nop);
-void		complex_sort(t_ps_state *state, t_nop *nop);
+void		put_min_first(t_ps_state *state);
+void		simple_sort(t_ps_state *state);
+void		medium_sort(t_ps_state *state);
+void		complex_sort(t_ps_state *state);
 t_ps_state	*str_to_list(void);
 void		free_state(t_ps_state *state);
 void		freexit(t_ps_state *state);
