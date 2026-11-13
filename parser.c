@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:49 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/13 01:56:09 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 21:11:43 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_ps_state	*parse_args(int argc, char **argv)
 			freexit(state);
 		i++;
 	}
-	if (argc > 1 && state->a.size == 0)
-		freexit(state);
 	return (state);
 }
 
