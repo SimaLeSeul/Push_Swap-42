@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/13 01:01:44 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 08:00:54 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	medium_sort(t_ps_state *state)
 	size_t		nb_packs_b;
 	size_t		size_packs_b;
 
-	if (state->a.size < 8)
+	if (state->a.size < 17)
 		return (simple_sort(state));
 	state->a.packs = new_packlist();
 	state->b.packs = new_packlist();
@@ -118,7 +118,6 @@ void	medium_sort(t_ps_state *state)
 	size_packs_b = 6;
 	while (nb_packs_b > 0)
 	{
-		debug(state);
 		make_pack(STACK_B, size_packs_b, state);
 		nb_packs_b--;
 		if (state->a.size < 3 * nb_packs_a + size_packs_b * nb_packs_b)
@@ -128,9 +127,6 @@ void	medium_sort(t_ps_state *state)
 	pack_a(state, nb_packs_a, state->a.size);
 	while (state->b.packs->size > 0)
 	{
-		debug(state);
 		merge_packs(state);
 	}
-	if (0)
-		debug(state);
 }
