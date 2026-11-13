@@ -31,6 +31,7 @@ The Makefile builds the included Libft and links the `push_swap` executable with
 | Command | Effect |
 | --- | --- |
 | `make` or `make all` | Build the executable. |
+| `make bonus` | Build the bonus `checker` executable. |
 | `make clean` | Remove project and Libft object files. |
 | `make fclean` | Also remove the executable and Libft archive. |
 | `make re` | Clean everything and rebuild. |
@@ -129,16 +130,19 @@ To keep both streams separately:
 ./push_swap --complex --bench "4 1 3 2" > operations.txt 2> bench.txt
 ```
 
-If you have the checker supplied for your platform, give it the same initial
-integers and pipe the generated operations into it. For a Linux checker named
-`checker_linux`:
+Build the bonus checker and give it the same initial integers as `push_swap`:
 
 ```sh
-./push_swap --complex --bench "4 1 3 2" 2> bench.txt | ./checker_linux "4 1 3 2"
+make bonus
+./push_swap --complex --bench "4 1 3 2" 2> bench.txt | ./checker "4 1 3 2"
 ```
 
-The expected checker result is `OK`: `a` is sorted and `b` is empty. The checker
-is an external evaluation tool and is not built by this project's Makefile.
+The result is `OK` when `a` is sorted and `b` is empty, or `KO` otherwise.
+The checker reads the eleven supported instructions from standard input until
+EOF, with a newline after each instruction. Invalid integers or instructions
+print `Error` to standard error. It accepts integers only, without strategy or
+benchmark options. With no arguments it exits silently. Its dedicated sources
+are `checker_bonus.c`, `checker_ops_bonus.c`, and `checker_bonus.h`.
 
 ## Stack model and operations
 
