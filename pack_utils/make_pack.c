@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 18:22:25 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 20:58:36 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 02:16:59 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	make_pack(t_stack_name stack, size_t n, t_ps_state *state)
 	top_stack_b = state->b.top;
 	perm_label = get_permutation_label(n, state);
 	if (perm_label == NULL)
-		return ;
+		freexit(state);
 	if (stack == STACK_A)
 		raw_result = make_pack_a(n, perm_label, state->a.packs);
 	else if (stack == STACK_B)

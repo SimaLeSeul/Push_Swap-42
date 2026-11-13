@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:56:08 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/11 20:08:41 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 02:43:13 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		op_rra(t_ps_state *state);
 void		op_rrb(t_ps_state *state);
 void		op_rrr(t_ps_state *state);
 
-void		op_apply(t_ps_state *state, char *op);
+int			op_apply(t_ps_state *state, char *op);
 void		op_apply_list(t_ps_state *state, char **ops);
 
 void		merge_pack_to_a(t_ps_state *state);
