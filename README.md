@@ -391,19 +391,40 @@ O(n²) comparisons overall.
 | Documented strategy | Generated operations, upper bound | CPU time including rank preparation | Auxiliary memory beyond stack nodes |
 | --- | --- | --- | --- |
 | Simple: minimum extraction | O(n²) | O(n²) | O(1) |
-| Complex: binary radix | O(n log n) | O(n²) | O(1) |
+| Binary radix | O(n log n) | O(n²) | O(1) |
+| Merge sort | O(n log n) | O(n log n) | O(n) |
 
 Both methods share O(n) total storage for the integer nodes. Parsing and initial
 disorder computation are additional preparation steps. The instruction bounds
 describe these implementations; they do not guarantee the shortest possible
 sequence for every input.
 
+### Benchmarks
+
+The following table lists the number of operations produced by each algorithm on diverse inputs.
+Results for inputs with randomness are displayed as "best - worst" over 20 tries.
+
+| Test case | Minimum extraction | Binary radix | Merge sort |
+| --- | --- | --- | --- |
+| 500 sorted numbers | 0 | 0 | 4228 |
+| 500 sorted numbers with 10 random swaps | 1978 - 3184 | 6784 | 4250 - 4263 |
+| 500 reverse-sorted numbers | 1499 | 6784 | 4791 |
+| 500 reverse-sorted numbers with 10 random swaps | 2268 - 3928 | 6784 | 4769 - 4780 |
+| 10 random numbers | 29 - 41 | 65 | 29 - 41 (*) |
+| 30 random numbers | 157 - 198 | 229 | 131 - 144 |
+| 100 random numbers | ??? | ??? | ??? |
+| 500 random numbers | ??? | ??? | ??? |
+| 2000 random numbers | ??? | ??? | ??? |
+| 10000 random numbers | 12427671 - 12653275 | 215392 | 134419 - 134589 |
+
+(*): Merge sort actually redirects to the simple algorithm for small inputs.
+
 ## Contributors
 
 | Learner | Contributions covered by this README |
 | --- | --- |
-| `mibaboul` | Simple minimum-extraction sort and complex binary radix sort; shared work on parsing and common project components. |
-| `jecourto` | Shared work on parsing and common project components. |
+| `mibaboul` | Simple minimum-extraction sort and complex binary radix sort, implementation of `ft_printf`, shared work on parsing and common project components. |
+| `jecourto` | Adaptation of merge sort and packing, shared work on parsing and common project components. |
 
 ## Resources
 
