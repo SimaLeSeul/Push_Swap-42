@@ -6,13 +6,17 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 00:51:01 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/11 06:51:29 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 02:34:58 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	op_apply(t_ps_state *state, char *op)
+/*
+	Apply the given push-swap operator, then return 0.
+	Return 1 if the operator is invalid.
+*/
+int	op_apply(t_ps_state *state, char *op)
 {
 	if (strings_equal(op, "sa"))
 		op_sa(state);
@@ -37,21 +41,28 @@ void	op_apply(t_ps_state *state, char *op)
 	else if (strings_equal(op, "rrr"))
 		op_rrr(state);
 	else
-		ft_putendl_fd("Warning: op_apply invalid operator", 2);
+		return (1);
+	return (0);
 }
 
+// Apply and free the given list of push-swap operators.
 void	op_apply_list(t_ps_state *state, char **ops)
 {
 	int		i;
+	int		is_error;
 
 	if (ops == NULL)
 		return (ft_putendl_fd("Warning: op_apply_list NULL", 2));
 	i = 0;
+	is_error = 0;
 	while (ops[i] != NULL)
 	{
-		op_apply(state, ops[i]);
+		if (!is_error)
+			is_error |= op_apply(state, ops[i]);
 		free(ops[i]);
 		i++;
 	}
 	free(ops);
+	if (is_error)
+		freexit(state);
 }

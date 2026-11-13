@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 16:07:23 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 19:26:28 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/13 02:02:44 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,16 @@ void	execute(t_ps_state *state, double disorder)
 	return ;
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
 	double		disorder;
 	t_ps_state	*state;
 
-	state = parse_args(ac, av);
+	if (argc < 2)
+		return (0);
+	state = parse_args(argc, argv);
 	disorder = calculate_disorder(&state->a);
 	execute(state, disorder);
 	free_state(state);
+	return (0);
 }

@@ -3,59 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   medium_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/12 03:01:38 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/13 21:54:10 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "pack_utils/packing.h"
-
-static void	debug(t_ps_state *state)
-{
-	size_t	i;
-	t_node	*node;
-
-	ft_printf("A(%d): ", state->a.size);
-	i = 0;
-	node = state->a.top;
-	while (i < state->a.size)
-	{
-		ft_printf("%d ", node->value);
-		node = node->next;
-		i++;
-	}
-	ft_printf("\nB(%d): ", state->b.size);
-	i = 0;
-	node = state->b.top;
-	while (i < state->b.size)
-	{
-		ft_printf("%d ", node->value);
-		node = node->next;
-		i++;
-	}
-	ft_printf("\nA_packs(%d): ", state->a.packs->size);
-	node = state->a.packs->top;
-	i = 0;
-	while (i < state->a.packs->size)
-	{
-		ft_printf("%d ", node->rank);
-		node = node->next;
-		i++;
-	}
-	ft_printf("\nB_packs(%d): ", state->b.packs->size);
-	node = state->b.packs->top;
-	i = 0;
-	while (i < state->b.packs->size)
-	{
-		ft_printf("%d ", node->rank);
-		node = node->next;
-		i++;
-	}
-	ft_printf("\n");
-}
 
 static t_stack	*new_packlist(void)
 {
@@ -108,19 +64,22 @@ void	medium_sort(t_ps_state *state)
 	size_t		nb_packs_b;
 	size_t		size_packs_b;
 
+	if (state->a.size < 17)
+		return (simple_sort(state));
 	state->a.packs = new_packlist();
 	state->b.packs = new_packlist();
 	if (state->a.packs == NULL || state->b.packs == NULL)
 		freexit(state);
 	nb_packs_b = ft_fibonacci(state->a.size / 5, &nb_packs_a);
 	size_packs_b = 6;
-	if (((state->a.size) - size_packs_b * nb_packs_b) / 3 < nb_packs_a)
-		size_packs_b--;
-	while (nb_packs_b-- > 0)
+	while (nb_packs_b > 0)
+	{
 		make_pack(STACK_B, size_packs_b, state);
+		nb_packs_b--;
+		if (state->a.size < 3 * nb_packs_a + size_packs_b * nb_packs_b)
+			size_packs_b--;
+	}
 	pack_a(state, nb_packs_a, state->a.size);
 	while (state->b.packs->size > 0)
 		merge_packs(state);
-	if (0)
-		debug(state);
 }

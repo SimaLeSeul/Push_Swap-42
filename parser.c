@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:55:49 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/08 18:28:08 by mibaboul         ###   ########.fr       */
+/*   Updated: 2026/11/13 01:56:09 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ps_state	*parse_args(int argc, char **argv)
 	int			has_strategy;
 
 	state = str_to_list();
-	if (!state || argc < 1 || !argv)
+	if (!state || argc < 2 || !argv)
 		freexit(state);
 	i = 1;
 	has_strategy = 0;
