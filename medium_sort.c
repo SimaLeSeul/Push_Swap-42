@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/13 00:57:46 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/13 01:01:44 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	medium_sort(t_ps_state *state)
 	size_t		nb_packs_b;
 	size_t		size_packs_b;
 
+	if (state->a.size < 8)
+		return (simple_sort(state));
 	state->a.packs = new_packlist();
 	state->b.packs = new_packlist();
 	if (state->a.packs == NULL || state->b.packs == NULL)
