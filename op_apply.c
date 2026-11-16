@@ -6,7 +6,7 @@
 /*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 00:51:01 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/13 02:34:58 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/16 22:44:30 by jecourto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	op_apply_list(t_ps_state *state, char **ops)
 	int		is_error;
 
 	if (ops == NULL)
-		return (ft_putendl_fd("Warning: op_apply_list NULL", 2));
+		freexit(state);
 	i = 0;
 	is_error = 0;
 	while (ops[i] != NULL)
