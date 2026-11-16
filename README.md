@@ -367,6 +367,32 @@ O(n log n) instruction bound. It uses O(1) auxiliary memory beyond the O(n) stac
 nodes, including their rank fields. Sorted input and inputs smaller than two
 elements return before rank calculation and emit no operations.
 
+### Merge sort adaptation
+
+The push-swap adaptation of the merge-sort algorithm relies on two main techniques:
+- **Packing** the initial data into small sorted chunks, those chunks being distributed in both stacks,
+- **Merging** a pack from one stack to a pack in the other stack, keeping the resulting pack sorted, and repeated the process until there is only one sorted pack in stack A.
+
+#### Packing
+
+We use here a hard-coded approach to either:
+- Sort the up-to-5 first elements in stack A, making a pack at the bottom of A.
+- Make packs of size up-to-6 in stack B ; the resulting pack may end up either at the top or bottom of B.
+
+**Important:** for optimization purposes, the packs in B end reverse-sorted.
+
+Both processes use a pre-computed and hardcoded minimal list of 5 to 12 operations to make the desired pack.
+
+This step costs a total of $n$ to $2n$ operations, where $n$ is the total number of elements.
+
+#### Merging
+
+For each merge, the *source pack* must be at the top of one stack, and the *target pack* must be at the bottom of the **other** stack.
+
+We then insert the source elements with push operations, reverse-rotating the target elements to make the insertions at the right position.
+
+Each merge costs a number of operations equal to the combined size of the merged packs.
+
 ### Initial disorder
 
 Before any stack operation, `calculate_disorder` counts inversions: pairs of
@@ -419,7 +445,7 @@ Results for inputs with randomness are displayed as "best - worst" over 20 tries
 | 100 random numbers | ??? | ??? | ??? |
 | 500 random numbers | ??? | ??? | ??? |
 | 2000 random numbers | ??? | ??? | ??? |
-| 10000 random numbers | 12427671 - 12653275 | 215392 | 134419 - 134589 |
+| 10000 random numbers | 12&nbsp;427&nbsp;671 - 12&nbsp;653&nbsp;275 | 215&nbsp;392 | 134&nbsp;419 - 134&nbsp;589 |
 
 (*): Merge sort actually redirects to the simple algorithm for small inputs.
 
