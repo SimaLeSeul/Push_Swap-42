@@ -3,6 +3,7 @@ NAME = push_swap
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I.
 RM = rm -f
+MAKEFLAGS += -j8
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

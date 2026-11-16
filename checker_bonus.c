@@ -74,16 +74,16 @@ int	main(int argc, char **argv)
 {
 	t_ps_state	*state;
 	char		line[4];
+	int			sorted;
 
 	if (argc == 1)
 		return (0);
 	state = checker_parse(argc, argv);
 	while (checker_read(state, line))
 		checker_apply(state, line);
-	if (checker_sorted(state))
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
+	sorted = checker_sorted(state);
 	free_state(state);
-	return (0);
+	if (sorted)
+		return (write(1, "OK\n", 3) != 3);
+	return (write(1, "KO\n", 3) != 3);
 }
