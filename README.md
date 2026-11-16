@@ -383,15 +383,56 @@ We use here a hard-coded approach to either:
 
 Both processes use a pre-computed and hardcoded minimal list of 5 to 12 operations to make the desired pack.
 
-This step costs a total of $n$ to $2n$ operations, where $n$ is the total number of elements.
+This step costs a total of $n$ to $\frac{5n}{2}$ operations, where $n$ is the total number of elements.
 
-#### Merging
+#### Optimal number and size of packs
+
+To prepare efficient merging, we ensure that after the packing step,
+the number of packs in each stack are consecutive Fibonacci numbers $F_m$ and $F_{m+1}$.
+
+Also, we try to have the size ratio between packs of B and packs of A as close as possible
+to the golden number $\varphi = \dfrac{1 + \sqrt{5}}{2}$. This is achievable with packs sof size close to 6 in B, and close to 4 in A.
+
+<img src="resources/Packing.svg">
+
+#### Merging two packs
 
 For each merge, the *source pack* must be at the top of one stack, and the *target pack* must be at the bottom of the **other** stack.
 
 We then insert the source elements with push operations, reverse-rotating the target elements to make the insertions at the right position.
 
 Each merge costs a number of operations equal to the combined size of the merged packs.
+
+<img src="resources/Merging.svg">
+
+#### Merging Fibonacci stacks
+
+Notice that after merging two packs, the resulting pack ends at the bottom of the target stack, which forces us to either:
+- Merge the resulting pack immediately (not efficient: as in the classical merge sort, we want to merge packs of similar size to minimize the total cost)
+- Waste rotate operations to pick optimal stacks to merge
+- Continue merging to the same stack
+
+We pick the third option, which explains the use of Fibonacci numbers:
+
+**Invariant:**
+- **Pre:**
+	- One stack has $F_{m+1}$ packs of size close to $s$
+	- The other stack has $F_{m+2}$ packs of size close to $\varphi s$
+- **Post:** After merging $F_{m+1}$ packs from the larger stack to the smaller stack:
+	- The target stack ends with $F_{m+1}$ packs of size $(\varphi + 1)s$
+	- The source stack ends with $F_{m+2} - F_{m+1} = F_m$ packs of size $\varphi s$
+
+Since $\frac{\varphi + 1}{\varphi} = \varphi$, the pack size ratios are also preserved, and we can now switch the roles of source and target, and repeat until the stacks have only $F_2 = F_1 = 1$ pack each.
+
+Then we perform a last merge to stack A, and the stack is sorted.
+
+#### Complexity
+
+The total number of operations to sorty $n$ elements with this algorithm is at most $\frac{5n}{2}$ for packing, plus at most $n$ for each of the $F^{-1}(n)$ stack merges, where $F^{-1}(n)$ is the inverse Fibonacci function, defined as
+
+$$ F^{-1}(n) = \min \{ m \in \mathbf{N} | n \leq F(m) \}$$
+
+The complexity class of this algorithm is thus $O(\frac{5n}{2} + nF^{-1}(n)) = O(n\log_\varphi(n))$.
 
 ### Initial disorder
 
