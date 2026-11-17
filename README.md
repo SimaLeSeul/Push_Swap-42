@@ -10,10 +10,10 @@ restricted set of operations. The program receives the initial contents of stack
 starts empty and provides temporary storage. At the end, the smallest value must
 be at the top of `a`, and `b` must be empty.
 
-The challenge is to reduce the number of generated instructions. This README
-details two implementations: minimum extraction (`--simple`) and binary radix
-sorting (`--complex`). Their complexity is measured in **Push_swap operations**,
-as required by [the subject](subject.pdf).
+The program provides four strategies: minimum extraction (`--simple`), Fibonacci
+pack merging (`--medium`), binary radix sorting (`--complex`), and automatic
+selection based on initial disorder (`--adaptive`, the default). Their complexity
+is measured in **Push_swap operations**, as required by [the subject](subject.pdf).
 
 ## Instructions
 
@@ -48,14 +48,23 @@ grouped inside a quoted argument, or a mixture of both:
 ./push_swap --simple -3 +2 0 -1
 ```
 
-| Option documented here | Effect |
+| Option | Effect |
 | --- | --- |
 | `--simple` | Force minimum extraction, with an O(n²) operation bound. |
+| `--medium` | Force Fibonacci pack merging, within the O(n√n) operation target. |
 | `--complex` | Force binary radix sorting, with an O(n log n) operation bound. |
+| `--adaptive` | Select a method from the initial disorder; this is the default. |
 | `--bench` | Add statistics on standard error after sorting. |
 
-Use one strategy selector per invocation. Options are separate arguments and may
-appear before or after the integers. `--bench` can accompany either selector.
+Use at most one strategy selector per invocation. Options are separate arguments
+and may appear before or after the integers. `--bench` can accompany any strategy.
+For example:
+
+```sh
+./push_swap 3 1 2
+./push_swap --adaptive --bench "4 1 3 2"
+./push_swap --medium "4 1 3 2"
+```
 
 Instructions go to **standard output**, one per line. For example:
 
@@ -101,9 +110,11 @@ exits with a failure status. Examples include:
 ./push_swap --simple --complex 2 1 # Multiple strategy selectors
 ```
 
-Calling `./push_swap` without arguments produces no output. With either documented
-strategy, an already sorted input or a single integer needs no operations.
-Options alone, without integers, are rejected.
+Calling `./push_swap` without arguments produces no output. With any strategy,
+an already sorted input or a single integer produces no operations. Recognized
+options without integers are accepted as an empty stack; `--bench` then reports
+zero disorder and zero operations. Empty or whitespace-only integer arguments
+are rejected.
 
 ### Benchmark and checker
 
@@ -367,7 +378,13 @@ O(n log n) instruction bound. It uses O(1) auxiliary memory beyond the O(n) stac
 nodes, including their rank fields. Sorted input and inputs smaller than two
 elements return before rank calculation and emit no operations.
 
-### Merge sort adaptation
+### Medium sort: Fibonacci pack merging
+
+Implementation: [medium_sort.c](medium_sort.c), [merge_packs.c](merge_packs.c)
+and [pack_utils/](pack_utils/). Select it with `--medium`. An already sorted
+stack returns immediately. For fewer than 17 elements, this method uses minimum
+extraction to avoid setting up pack lists for small inputs. This fixed-size
+fallback does not change the asymptotic operation bound.
 
 The push-swap adaptation of the merge-sort algorithm relies on two main techniques:
 - **Packing** the initial data into small sorted chunks, those chunks being distributed in both stacks,
@@ -391,7 +408,7 @@ To prepare efficient merging, we ensure that after the packing step,
 the number of packs in each stack are consecutive Fibonacci numbers $F_m$ and $F_{m+1}$.
 
 Also, we try to have the size ratio between packs of B and packs of A as close as possible
-to the golden number $\varphi = \dfrac{1 + \sqrt{5}}{2}$. This is achievable with packs sof size close to 6 in B, and close to 4 in A.
+to the golden number $\varphi = \dfrac{1 + \sqrt{5}}{2}$. This is achievable with packs of size close to 6 in B, and close to 4 in A.
 
 <img src="resources/Packing.svg">
 
@@ -428,11 +445,18 @@ Then we perform a last merge to stack A, and the stack is sorted.
 
 #### Complexity
 
-The total number of operations to sorty $n$ elements with this algorithm is at most $\frac{5n}{2}$ for packing, plus at most $n$ for each of the $F^{-1}(n)$ stack merges, where $F^{-1}(n)$ is the inverse Fibonacci function, defined as
+The total number of operations to sort $n$ elements with this algorithm is at most $\frac{5n}{2}$ for packing, plus at most $n$ for each of the $F^{-1}(n)$ stack merges, where $F^{-1}(n)$ is the inverse Fibonacci function, defined as
 
 $$ F^{-1}(n) = \min \{ m \in \mathbf{N} | n \leq F(m) \}$$
 
 The complexity class of this algorithm is thus $O(\frac{5n}{2} + nF^{-1}(n)) = O(n\log_\varphi(n))$.
+
+The pack lists store O(n) metadata nodes. Ranking each initial pack and splitting
+its instruction string use bounded temporary space because packs contain at most
+six elements. Each merging round processes at most n elements, and there are
+O(log n) rounds. The sorting routine therefore uses O(n log n) CPU work and O(n)
+auxiliary space beyond the integer nodes. Its O(n log n) operation bound also
+satisfies the subject's O(n√n) upper bound for `--medium`.
 
 ### Initial disorder
 
@@ -457,6 +481,41 @@ auxiliary memory. These comparisons emit no instructions. Input parsing also
 performs duplicate checks against previously stored values, which can require
 O(n²) comparisons overall.
 
+### Adaptive strategy
+
+Implementation: [main.c](main.c), `execute`. Use `--adaptive` or omit the selector.
+The disorder is computed once on the original stack, before any operation.
+
+| Initial disorder `d` | Selected method | Required operation bound | Auxiliary memory beyond stack nodes |
+| --- | --- | --- | --- |
+| `0 <= d < 0.2` | Minimum extraction | O(n²) | O(1) |
+| `0.2 <= d < 0.5` | Fibonacci pack merging | O(n√n) | O(n) |
+| `0.5 <= d <= 1` | Binary radix | O(n log n) | O(1) |
+
+The thresholds `0.2` and `0.5` are prescribed by the subject. Minimum extraction
+provides a simple baseline in the low-disorder regime, with constant auxiliary
+space and no pack allocation or rank preparation. The middle regime uses sorted
+packs and merges to reduce the instruction cost. The high-disorder regime uses
+radix, whose operation bound depends on the rank bits and input size rather than
+the initial permutation. These choices meet the required bounds; the thresholds
+do not guarantee the smallest operation count on every input. In particular,
+few inversions do not guarantee few rotations in minimum extraction.
+
+At exactly `d = 0.2`, merging is selected; at exactly `d = 0.5`, radix is selected.
+Merging's fallback for fewer than 17 elements also applies through adaptive.
+An already sorted stack has `d = 0` and produces no operations.
+
+The bounds follow from the individual methods: at most `floor(n² / 4) + 2n`
+operations for extraction, O(n log n) for Fibonacci merging (also O(n√n)), and
+at most `2n * ceil(log2(n))` for radix. Selecting a method emits no operations
+and adds O(1) space. Only the middle regime allocates O(n) pack metadata; all
+regimes share O(n) storage for integer nodes. Initial disorder calculation costs
+O(n²) CPU work and O(1) auxiliary space, separate from generated operations.
+
+With `--bench`, adaptive is reported as `Adaptive` with the complexity class of
+its selected regime. Forced `--medium` reports `O(n*sqrt(n))`, the required upper
+bound, although its merging implementation has the tighter O(n log n) bound.
+
 ### Complexity comparison
 
 | Documented strategy | Generated operations, upper bound | CPU time including rank preparation | Auxiliary memory beyond stack nodes |
@@ -465,30 +524,28 @@ O(n²) comparisons overall.
 | Binary radix | O(n log n) | O(n²) | O(1) |
 | Merge sort | O(n log n) | O(n log n) | O(n) |
 
-Both methods share O(n) total storage for the integer nodes. Parsing and initial
+All methods share O(n) storage for the integer nodes. Parsing and initial
 disorder computation are additional preparation steps. The instruction bounds
 describe these implementations; they do not guarantee the shortest possible
 sequence for every input.
 
 ### Benchmarks
 
-The following table lists the number of operations produced by each algorithm on diverse inputs.
-Results for inputs with randomness are displayed as "best - worst" over 20 tries.
+The following results were checked on 17 November 2026. Random inputs contain
+distinct signed 32-bit integers, with seed `422026` and 100 samples per size.
+Ranges are the minimum and maximum numbers of emitted operations.
 
-| Test case | Minimum extraction | Binary radix | Merge sort |
-| --- | --- | --- | --- |
-| 500 sorted numbers | 0 | 0 | 4228 |
-| 500 sorted numbers with 10 random swaps | 1978 - 3184 | 6784 | 4250 - 4263 |
-| 500 reverse-sorted numbers | 1499 | 6784 | 4791 |
-| 500 reverse-sorted numbers with 10 random swaps | 2268 - 3928 | 6784 | 4769 - 4780 |
-| 10 random numbers | 29 - 41 | 65 | 29 - 41 (*) |
-| 30 random numbers | 157 - 198 | 229 | 131 - 144 |
-| 100 random numbers | ??? | ??? | ??? |
-| 500 random numbers | ??? | ??? | ??? |
-| 2000 random numbers | ??? | ??? | ??? |
-| 10000 random numbers | 12&nbsp;427&nbsp;671 - 12&nbsp;653&nbsp;275 | 215&nbsp;392 | 134&nbsp;419 - 134&nbsp;589 |
+| Input | Minimum extraction | Binary radix | Fibonacci merging | Adaptive |
+| --- | --- | --- | --- | --- |
+| 100 random numbers | 1 207–1 693 | 1 084 | 611–644 | 613–1 084 |
+| 500 random numbers | 30 200–34 902 | 6 784 | 4 508–4 585 | 4 526–6 784 |
+| 500 sorted numbers | 0 | 0 | 0 | 0 |
 
-(*): Merge sort actually redirects to the simple algorithm for small inputs.
+The subject requires fewer than 2 000 operations for 100 random numbers and
+12 000 for 500. Adaptive passes these limits on this sample and also meets the
+good-performance targets of fewer than 1 500 and 8 000 respectively. The forced
+simple baseline is shown separately; its quadratic instruction cost can exceed
+these limits. These measurements do not prove the same counts for every input.
 
 ## Contributors
 

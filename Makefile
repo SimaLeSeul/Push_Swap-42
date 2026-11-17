@@ -34,6 +34,10 @@ $(BONUS_NAME): $(BONUS_OBJ) $(LIBFT)
 
 checker_bonus.o checker_ops_bonus.o: checker_bonus.h
 
+medium_sort.o pack_utils/make_pack.o: pack_utils/packing.h
+
+pack_utils/make_pack.o $(filter pack_utils/utils/%.o,$(OBJ)): pack_utils/utils/packing_utils.h
+
 $(LIBFT): FORCE
 	$(MAKE) -C $(LIBFT_DIR) CC="$(CC)" CFLAGS="$(CFLAGS)"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   medium_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 23:58:14 by jecourto          #+#    #+#             */
-/*   Updated: 2026/11/13 21:54:10 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/17 11:06:34 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	medium_sort(t_ps_state *state)
 	size_t		nb_packs_b;
 	size_t		size_packs_b;
 
+	if (stack_is_sorted(&state->a) == 1)
+		return ;
 	if (state->a.size < 17)
 		return (simple_sort(state));
 	state->a.packs = new_packlist();
