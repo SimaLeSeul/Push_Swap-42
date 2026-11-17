@@ -367,6 +367,73 @@ O(n log n) instruction bound. It uses O(1) auxiliary memory beyond the O(n) stac
 nodes, including their rank fields. Sorted input and inputs smaller than two
 elements return before rank calculation and emit no operations.
 
+### Merge sort adaptation
+
+The push-swap adaptation of the merge-sort algorithm relies on two main techniques:
+- **Packing** the initial data into small sorted chunks, those chunks being distributed in both stacks,
+- **Merging** a pack from one stack to a pack in the other stack, keeping the resulting pack sorted, and repeated the process until there is only one sorted pack in stack A.
+
+#### Packing
+
+We use here a hard-coded approach to either:
+- Sort the up-to-5 first elements in stack A, making a pack at the bottom of A.
+- Make packs of size up-to-6 in stack B ; the resulting pack may end up either at the top or bottom of B.
+
+**Important:** for optimization purposes, the packs in B end reverse-sorted.
+
+Both processes use a pre-computed and hardcoded minimal list of 5 to 12 operations to make the desired pack.
+
+This step costs a total of $n$ to $\frac{5n}{2}$ operations, where $n$ is the total number of elements.
+
+#### Optimal number and size of packs
+
+To prepare efficient merging, we ensure that after the packing step,
+the number of packs in each stack are consecutive Fibonacci numbers $F_m$ and $F_{m+1}$.
+
+Also, we try to have the size ratio between packs of B and packs of A as close as possible
+to the golden number $\varphi = \dfrac{1 + \sqrt{5}}{2}$. This is achievable with packs sof size close to 6 in B, and close to 4 in A.
+
+<img src="resources/Packing.svg">
+
+#### Merging two packs
+
+For each merge, the *source pack* must be at the top of one stack, and the *target pack* must be at the bottom of the **other** stack.
+
+We then insert the source elements with push operations, reverse-rotating the target elements to make the insertions at the right position.
+
+Each merge costs a number of operations equal to the combined size of the merged packs.
+
+<img src="resources/Merging.svg">
+
+#### Merging Fibonacci stacks
+
+Notice that after merging two packs, the resulting pack ends at the bottom of the target stack, which forces us to either:
+- Merge the resulting pack immediately (not efficient: as in the classical merge sort, we want to merge packs of similar size to minimize the total cost)
+- Waste rotate operations to pick optimal stacks to merge
+- Continue merging to the same stack
+
+We pick the third option, which explains the use of Fibonacci numbers:
+
+**Invariant:**
+- **Pre:**
+	- One stack has $F_{m+1}$ packs of size close to $s$
+	- The other stack has $F_{m+2}$ packs of size close to $\varphi s$
+- **Post:** After merging $F_{m+1}$ packs from the larger stack to the smaller stack:
+	- The target stack ends with $F_{m+1}$ packs of size $(\varphi + 1)s$
+	- The source stack ends with $F_{m+2} - F_{m+1} = F_m$ packs of size $\varphi s$
+
+Since $\frac{\varphi + 1}{\varphi} = \varphi$, the pack size ratios are also preserved, and we can now switch the roles of source and target, and repeat until the stacks have only $F_2 = F_1 = 1$ pack each.
+
+Then we perform a last merge to stack A, and the stack is sorted.
+
+#### Complexity
+
+The total number of operations to sorty $n$ elements with this algorithm is at most $\frac{5n}{2}$ for packing, plus at most $n$ for each of the $F^{-1}(n)$ stack merges, where $F^{-1}(n)$ is the inverse Fibonacci function, defined as
+
+$$ F^{-1}(n) = \min \{ m \in \mathbf{N} | n \leq F(m) \}$$
+
+The complexity class of this algorithm is thus $O(\frac{5n}{2} + nF^{-1}(n)) = O(n\log_\varphi(n))$.
+
 ### Initial disorder
 
 Before any stack operation, `calculate_disorder` counts inversions: pairs of
@@ -395,19 +462,40 @@ O(n²) comparisons overall.
 | Documented strategy | Generated operations, upper bound | CPU time including rank preparation | Auxiliary memory beyond stack nodes |
 | --- | --- | --- | --- |
 | Simple: minimum extraction | O(n²) | O(n²) | O(1) |
-| Complex: binary radix | O(n log n) | O(n²) | O(1) |
+| Binary radix | O(n log n) | O(n²) | O(1) |
+| Merge sort | O(n log n) | O(n log n) | O(n) |
 
 Both methods share O(n) total storage for the integer nodes. Parsing and initial
 disorder computation are additional preparation steps. The instruction bounds
 describe these implementations; they do not guarantee the shortest possible
 sequence for every input.
 
+### Benchmarks
+
+The following table lists the number of operations produced by each algorithm on diverse inputs.
+Results for inputs with randomness are displayed as "best - worst" over 20 tries.
+
+| Test case | Minimum extraction | Binary radix | Merge sort |
+| --- | --- | --- | --- |
+| 500 sorted numbers | 0 | 0 | 4228 |
+| 500 sorted numbers with 10 random swaps | 1978 - 3184 | 6784 | 4250 - 4263 |
+| 500 reverse-sorted numbers | 1499 | 6784 | 4791 |
+| 500 reverse-sorted numbers with 10 random swaps | 2268 - 3928 | 6784 | 4769 - 4780 |
+| 10 random numbers | 29 - 41 | 65 | 29 - 41 (*) |
+| 30 random numbers | 157 - 198 | 229 | 131 - 144 |
+| 100 random numbers | ??? | ??? | ??? |
+| 500 random numbers | ??? | ??? | ??? |
+| 2000 random numbers | ??? | ??? | ??? |
+| 10000 random numbers | 12&nbsp;427&nbsp;671 - 12&nbsp;653&nbsp;275 | 215&nbsp;392 | 134&nbsp;419 - 134&nbsp;589 |
+
+(*): Merge sort actually redirects to the simple algorithm for small inputs.
+
 ## Contributors
 
 | Learner | Contributions covered by this README |
 | --- | --- |
-| `mibaboul` | Simple minimum-extraction sort and complex binary radix sort; shared work on parsing and common project components. |
-| `jecourto` | Shared work on parsing and common project components. |
+| `mibaboul` | Simple minimum-extraction sort and complex binary radix sort, implementation of `ft_printf`, shared work on parsing and common project components. |
+| `jecourto` | Adaptation of merge sort and packing, shared work on parsing and common project components. |
 
 ## Resources
 
