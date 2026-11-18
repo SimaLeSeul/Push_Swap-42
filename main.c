@@ -86,12 +86,10 @@ void	execute(t_ps_state *state, double disorder)
 	ft_bzero(&state->nop, sizeof(t_nop));
 	if (state->strategy == ADAPTIVE)
 	{
-		if (disorder < 0.2)
+		if (disorder < 0.01)
 			simple_sort(state);
-		else if (disorder < 0.5)
-			medium_sort(state);
 		else
-			complex_sort(state);
+			medium_sort(state);
 	}
 	else if (state->strategy == SIMPLE)
 		simple_sort(state);
