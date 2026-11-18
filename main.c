@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jecourto <jecourto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mibaboul <mibaboul@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 16:07:23 by mibaboul          #+#    #+#             */
-/*   Updated: 2026/11/13 02:02:44 by jecourto         ###   ########.fr       */
+/*   Updated: 2026/11/18 14:22:18 by mibaboul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ static void	bench_strategy(double disorder, t_ps_state *state)
 		ft_printf_fd(2, "Medium | O(n*sqrt(n))\n");
 	else if (state->strategy == COMPLEX)
 		ft_printf_fd(2, "Complex | O(n*log(n))\n");
-	else if (disorder < 0.2)
+	else if (disorder < 0.01)
 		ft_printf_fd(2, "Adaptive | O(n^2)\n");
-	else if (disorder < 0.5)
-		ft_printf_fd(2, "Adaptive | O(n*sqrt(n))\n");
 	else
-		ft_printf_fd(2, "Adaptive | O(n*log(n))\n");
+		ft_printf_fd(2, "Adaptive | O(n*sqrt(n))\n");
 }
 
 void	bench(t_ps_state *state, double disorder)

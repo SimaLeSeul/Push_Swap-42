@@ -2,3 +2,9 @@
 *.o
 push_swap
 checker
+/tests
+*tests*
+.codex*
+.DS*
+subject.pdf
+*.pdf
